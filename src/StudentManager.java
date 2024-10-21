@@ -8,13 +8,13 @@ public class StudentManager {
     private Scanner scanner = new Scanner(System.in);
 
     public void addStudent() {
-        System.out.println("Nhap ma sinh vien");
+        System.out.println("Enter student Id: ");
         String id = scanner.nextLine();
-        System.out.println("Nhap ten sinh vien");
+        System.out.println("Enter student name: ");
         String name = scanner.nextLine();
-        System.out.println("Nhap tuoi sinh vien");
+        System.out.println("Enter student age: ");
         int age = Integer.parseInt(scanner.nextLine());
-        System.out.println("Nhap ten lop");
+        System.out.println("Enter class name: ");
         String className = scanner.nextLine();
 
         students.add(new Student(id, name, age, className));
@@ -22,31 +22,31 @@ public class StudentManager {
     }
 
     public void editStudent() {
-        System.out.println("Nhap ma sinh vien can sua");
+        System.out.println("Enter student id to exit: ");
         String id = scanner.nextLine();
         Student student = findStudentById(id);
         if (student != null) {
-            System.out.println("Nhap ten moi");
+            System.out.println("Enter new student name: ");
             student.setName(scanner.nextLine());
-            System.out.println("Nhap tuoi moi");
+            System.out.println("Enter new student age: ");
             student.setAge(Integer.parseInt(scanner.nextLine()));
-            System.out.println("Nhap ten lop moi");
+            System.out.println("Enter new class name: ");
             student.setClassName(scanner.nextLine());
-            System.out.println("Cap nhat thong tin thanh cong");
+            System.out.println("Student information updated successfully!");
         } else {
-            System.out.println("Khong tim thay sinh vien voi ID nay");
+            System.out.println("No student found with this Id!");
         }
     }
 
     public void deleteSutdent() {
-        System.out.println("Nhap ma sinh vien can xoa");
+        System.out.println("Enter student Id to delete");
         String id = scanner.nextLine();
         Student student = findStudentById(id);
         if (student != null) {
             students.remove(student);
-            System.out.println("Xoa sinh vien thanh cong");
+            System.out.println("Student deleted successfully!");
         } else {
-            System.out.println("Khong tim thay sinh vien voi ma nay");
+            System.out.println("No student found with this Id!");
         }
     }
 
@@ -61,7 +61,7 @@ public class StudentManager {
 
     public void displayStudents() {
         if (students.isEmpty()) {
-            System.out.println("Danh sach sinh vien trong");
+            System.out.println("Empty student list!");
         } else {
             for (Student student : students) {
                 System.out.println(student);
@@ -79,12 +79,12 @@ public class StudentManager {
                     bw.write(line);
                     bw.newLine();
                 }
-                System.out.println("Luu du lieu thanh cong!");
+                System.out.println("Data saved successfully!!");
             } catch (IOException e) {
-                System.out.println("Luu du lieu bi loi!");
+                System.out.println("Data saved failed!");
             }
         } else {
-            System.out.println("Danh sach sinh vien rong");
+            System.out.println("Empty student list!");
         }
     }
 
@@ -99,9 +99,9 @@ public class StudentManager {
                 String className = data[3];
                 students.add(new Student(id, name, age, className));
             }
-            System.out.println("Nap du lieu tu file " + fileName + " thanh cong!" );
+            System.out.println("Load data from file: " + fileName + " successfully!" );
         } catch (IOException e) {
-            System.out.println("Nap du lieu loi!");
+            System.out.println("Load data failed!");
         }
     }
 }

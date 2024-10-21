@@ -7,15 +7,15 @@ public class Main {
         int choice;
 
         do {
-            System.out.println("\n--- Quan ly sinh vien ---");
-            System.out.println("1. Them sinh vien");
-            System.out.println("2. Sua sinh vien");
-            System.out.println("3. Xoa sinh vien");
-            System.out.println("4. Hien thi danh sach sinh vien");
-            System.out.println("5. Nap du lieu tu file");
-            System.out.println("6. Xuat du lieu tu file");
-            System.out.println("0. Thoat");
-            System.out.println("Chon chuc nang");
+            System.out.println("\n--- Manager Student ---");
+            System.out.println("1. Add student");
+            System.out.println("2. Edit student");
+            System.out.println("3. Delete student");
+            System.out.println("4. Show student list");
+            System.out.println("5. Load data from file");
+            System.out.println("6. Save data to file");
+            System.out.println("0. Exit");
+            System.out.println("Choose function: ");
             choice = Integer.parseInt(scanner.nextLine());
 
             switch (choice) {
@@ -32,20 +32,20 @@ public class Main {
                     manager.displayStudents();
                     break;
                 case 5:
-                    System.out.println("Nhap ten file de nap du lieu");
+                    System.out.println("Enter file name to load data: ");
                     String loadFile = scanner.nextLine();
                     manager.loadFromFile(loadFile);
                     break;
                 case 6:
-                    System.out.println("Nhap ten file de luu du lieu");
+                    System.out.println("Enter file name to save data: ");
                     String saveFile = scanner.nextLine();
                     manager.saveToFile(saveFile);
                     break;
                 case 0:
-                    System.out.println("Thoat chuong trinh.");
+                    System.out.println("Exit!");
                     break;
                 default:
-                    System.out.println("Lua chon khong hop le.");
+                    System.out.println("Invalid choose!.");
             }
         } while (choice != 0);
         scanner.close();
