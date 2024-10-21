@@ -1,9 +1,13 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        StudentManager manager = new StudentManager();
+        List<Student> students = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
+
+        StudentManager manager = new StudentManager(students, scanner);
         int choice;
 
         do {

@@ -4,8 +4,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class StudentManager {
-    private List<Student> students = new ArrayList<>();
-    private Scanner scanner = new Scanner(System.in);
+    private List<Student> students;
+    private Scanner scanner;
+
+    public StudentManager(List<Student> students, Scanner scanner) {
+        this.students = students;
+        this.scanner = scanner;
+    }
 
     public void addStudent() {
         System.out.println("Enter student Id: ");
@@ -26,13 +31,38 @@ public class StudentManager {
         String id = scanner.nextLine();
         Student student = findStudentById(id);
         if (student != null) {
-            System.out.println("Enter new student name: ");
-            student.setName(scanner.nextLine());
-            System.out.println("Enter new student age: ");
-            student.setAge(Integer.parseInt(scanner.nextLine()));
-            System.out.println("Enter new class name: ");
-            student.setClassName(scanner.nextLine());
-            System.out.println("Student information updated successfully!");
+            int choice;
+            do {
+                System.out.println("\n Select the item you want to edit: ");
+                System.out.println("1. Edit name");
+                System.out.println("2. Edit age");
+                System.out.println("3. Edit className");
+                System.out.println("0. Exit editing");
+                System.out.println("Choice: ");
+                choice = Integer.parseInt(scanner.nextLine());
+                switch (choice) {
+                    case 1:
+                        System.out.println("Enter new name: ");
+                        student.setName(scanner.nextLine());
+                        System.out.println("Name has been updated.");
+                        break;
+                    case 2:
+                        System.out.println("Enter new age: ");
+                        student.setAge(Integer.parseInt(scanner.nextLine()));
+                        System.out.println("Age has been updated.");
+                        break;
+                    case 3:
+                        System.out.println("Enter new className: ");
+                        student.setClassName(scanner.nextLine());
+                        System.out.println("ClassName has been updated.");
+                        break;
+                    case 0:
+                        System.out.println("Exit successfully");
+                        break;
+                    default:
+                        System.out.println("Invaild choice. Please choose again.");
+                }
+            } while (choice != 0);
         } else {
             System.out.println("No student found with this Id!");
         }
