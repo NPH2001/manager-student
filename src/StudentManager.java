@@ -1,8 +1,11 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 public class StudentManager {
     private List<Student> students;
     private Scanner scanner;
@@ -173,10 +176,27 @@ public class StudentManager {
         }
     }
 
-    public void saveToFile(String fileName) {
+    public void saveToFile(String fileName) throws IOException {
+        LocalDate currentDate = LocalDate.now();
+        String dateFolder = currentDate.toString();
+
+        Path directoryPath = Paths.get(dateFolder);
+
         if (!students.isEmpty()) {
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))){
-                for (Student student: students) {
+            File file = new File(directoryPath + "/" + fileName);
+
+            if (!Files.exists(directoryPath)) {
+                Files.createDirectories(directoryPath);
+                System.out.println("Create directory: " + directoryPath);
+            }
+
+            if (!file.exists()) {
+                file.createNewFile();
+                System.out.println("Create file: " + file);
+                }
+
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+                for (Student student : students) {
                     String line = student.getStudentId() + ", " + student.getName() + ", " +
                             student.getAge() + ", " + student.getClassName();
 
@@ -184,7 +204,7 @@ public class StudentManager {
                     bw.newLine();
                 }
                 System.out.println("Data saved successfully!!");
-            } catch (IOException e) {
+            } catch (Exception e) {
                 System.out.println("Data saved failed!");
             }
         } else {

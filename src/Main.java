@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -46,8 +49,19 @@ public class Main {
                     break;
                 case 7:
                     System.out.println("Enter file name to save data: ");
-                    String saveFile = scanner.nextLine();
-                    manager.saveToFile(saveFile);
+                    String nameFile = scanner.nextLine();
+
+                    LocalTime time = LocalTime.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH-mm-ss");
+                    String currentTimeFormat = formatter.format(time);
+                    String saveFile = currentTimeFormat + "_" + nameFile;
+
+                    System.out.println("saveFile: " + saveFile);
+                    try {
+                        manager.saveToFile(saveFile);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 0:
                     System.out.println("Exit!");
