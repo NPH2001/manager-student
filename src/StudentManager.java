@@ -89,6 +89,80 @@ public class StudentManager {
         return null;
     }
 
+    public void searchStudent() {
+        int choice;
+        int count = 0;
+        do {
+            System.out.println("\n Select the item you want to edit:");
+            System.out.println("1. Search Id");
+            System.out.println("2. Search name");
+            System.out.println("3. Search age");
+            System.out.println("4. Search className");
+            System.out.println("0. Exit search");
+            System.out.println("Choice: ");
+            choice = Integer.parseInt(scanner.nextLine());
+
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter Id: ");
+                    String id = scanner.nextLine();
+                    if (findStudentById(id) == null) {
+                        System.out.println("No student with that Id was found");
+                    } else {
+                        System.out.println(findStudentById(id));
+                    }
+                    break;
+                case 2:
+                    System.out.println("Enter name: ");
+                    String name = scanner.nextLine();
+                    for (Student student : students) {
+                        if (student.getName().equals(name)) {
+                            System.out.println(student);
+                            count += 1;
+                        }
+                    }
+                    if (count == 0) {
+                        System.out.println("No student with that name was found");
+                    }
+                    count = 0;
+                    break;
+                case 3:
+                    System.out.println("Enter age: ");
+                    int age = Integer.parseInt(scanner.nextLine());
+                    for (Student student : students) {
+                        if (student.getAge() == age) {
+                            System.out.println(student);
+                            count += 1;
+                        }
+                    }
+                    if (count == 0) {
+                        System.out.println("No student with that age was found");
+                    }
+                    count = 0;
+                    break;
+                case 4:
+                    System.out.println("Enter className: ");
+                    String className = scanner.nextLine();
+                    for (Student student : students) {
+                        if (student.getClassName().equals(className)) {
+                            System.out.println(student);
+                            count += 1;
+                        }
+                    }
+                    if (count == 0) {
+                        System.out.println("No student with that class name was found");
+                    }
+                    count = 0;
+                    break;
+                case 0:
+                    System.out.println("Exit successfully");
+                    break;
+                default:
+                    System.out.println("Invaild choice. Please choose again.");
+            }
+        } while (choice != 0);
+    }
+
     public void displayStudents() {
         if (students.isEmpty()) {
             System.out.println("Empty student list!");

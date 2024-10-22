@@ -16,8 +16,9 @@ public class Main {
             System.out.println("2. Edit student");
             System.out.println("3. Delete student");
             System.out.println("4. Show student list");
-            System.out.println("5. Load data from file");
-            System.out.println("6. Save data to file");
+            System.out.println("5. Search student");
+            System.out.println("6. Load data from file");
+            System.out.println("7. Save data to file");
             System.out.println("0. Exit");
             System.out.println("Choose function: ");
             choice = Integer.parseInt(scanner.nextLine());
@@ -36,11 +37,14 @@ public class Main {
                     manager.displayStudents();
                     break;
                 case 5:
+                    manager.searchStudent();
+                    break;
+                case 6:
                     System.out.println("Enter file name to load data: ");
                     String loadFile = scanner.nextLine();
                     manager.loadFromFile(loadFile);
                     break;
-                case 6:
+                case 7:
                     System.out.println("Enter file name to save data: ");
                     String saveFile = scanner.nextLine();
                     manager.saveToFile(saveFile);
