@@ -1,3 +1,4 @@
+import Common.InputUtils;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -42,7 +43,8 @@ public class StudentManager {
                 System.out.println("3. Edit className");
                 System.out.println("0. Exit editing");
                 System.out.println("Choice: ");
-                choice = Integer.parseInt(scanner.nextLine());
+                choice = InputUtils.getIntInput(scanner);
+
                 switch (choice) {
                     case 1:
                         System.out.println("Enter new name: ");
@@ -95,6 +97,7 @@ public class StudentManager {
     public void searchStudent() {
         int choice;
         int count = 0;
+
         do {
             System.out.println("\n Select the item you want to edit:");
             System.out.println("1. Search Id");
@@ -103,7 +106,8 @@ public class StudentManager {
             System.out.println("4. Search className");
             System.out.println("0. Exit search");
             System.out.println("Choice: ");
-            choice = Integer.parseInt(scanner.nextLine());
+
+            choice = InputUtils.getIntInput(scanner);
 
             switch (choice) {
                 case 1:
@@ -177,38 +181,68 @@ public class StudentManager {
     }
 
     public void saveToFile(String fileName) throws IOException {
+        int fileSize = 5;
+        int totalThreads = (int) Math.ceil((double) students.size() / fileSize);
+
         LocalDate currentDate = LocalDate.now();
         String dateFolder = currentDate.toString();
 
         Path directoryPath = Paths.get(dateFolder);
 
         if (!students.isEmpty()) {
-            File file = new File(directoryPath + "/" + fileName);
-
-            if (!Files.exists(directoryPath)) {
-                Files.createDirectories(directoryPath);
-                System.out.println("Create directory: " + directoryPath);
-            }
-
-            if (!file.exists()) {
-                file.createNewFile();
-                System.out.println("Create file: " + file);
+            try {
+                if (!Files.exists(directoryPath)) {
+                    Files.createDirectories(directoryPath);
+                    System.out.println("Create directory: " + directoryPath);
                 }
 
+                for (int i = 0; i < totalThreads; i++) {
+                    int start = i * fileSize;
+                    int end = Math.min(start + fileSize, students.size());
+                    List<Student> studentFile = students.subList(start, end);
+
+                    String file = directoryPath + "/" + "file" +(i + 1) + "_" + fileName;
+
+                    Thread thread = new Thread(new FileWriterTask(file, studentFile));
+                    thread.start();
+                    System.out.println("Thread run: " + thread);
+                }
+            } catch (Exception e) {
+                System.out.println("An error occurred while saving the files.");
+            }
+        } else {
+            System.out.println("Empty student list!");
+        }
+    }
+
+    private class FileWriterTask implements Runnable {
+        private String fileName;
+        private List<Student> studentFile;
+
+        public FileWriterTask(String fileName, List<Student> studentFile) {
+            this.fileName = fileName;
+            this.studentFile = studentFile;
+        }
+
+        @Override
+        public void run() {
+            File file = new File(fileName);
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-                for (Student student : students) {
+                if (!file.exists()) {
+                    file.createNewFile();
+                    System.out.println("Create file: " + file);
+                }
+
+                for (Student student : studentFile) {
                     String line = student.getStudentId() + ", " + student.getName() + ", " +
                             student.getAge() + ", " + student.getClassName();
 
                     bw.write(line);
                     bw.newLine();
                 }
-                System.out.println("Data saved successfully!!");
             } catch (Exception e) {
-                System.out.println("Data saved failed!");
+                System.out.println("An error occurred while writing to file" + fileName);
             }
-        } else {
-            System.out.println("Empty student list!");
         }
     }
 

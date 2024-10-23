@@ -1,3 +1,5 @@
+import Common.InputUtils;
+
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -6,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
         List<Student> students = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
@@ -24,7 +27,8 @@ public class Main {
             System.out.println("7. Save data to file");
             System.out.println("0. Exit");
             System.out.println("Choose function: ");
-            choice = Integer.parseInt(scanner.nextLine());
+
+            choice = InputUtils.getIntInput(scanner);
 
             switch (choice) {
                 case 1:
